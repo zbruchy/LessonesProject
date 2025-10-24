@@ -9,7 +9,7 @@ namespace LessonesProject.Controllers
     [ApiController]
     public class AttendanceController : ControllerBase
     {
-        public static List<Attendance> attendances = new List<Attendance>();
+      
 
         // GET: api/<AttendanceController>
         [HttpGet]
