@@ -9,23 +9,23 @@ namespace LessonesProject.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private static List<User> users = new List<User>()
+        public IDatacontext _context { get; set; }
+        public UserController(IDatacontext context)
         {
-            new User { Id = 1, Name = "ישראל כהן", Role = "teacher", Email = "israel@example.com" },
-            new User { Id = 2, Name = "שרה לוי", Role = "student", Email = "sara@example.com" }
-        };
+            _context = context;
+        }
         // GET: api/<UserController>
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return users;
+            return _context.users;
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            var user = users.FirstOrDefault(u => u.Id == id)!;
+            var user = _context.users.FirstOrDefault(u => u.Id == id)!;
             if (user != null)
                 return Ok(user);
             return NotFound();
@@ -33,32 +33,43 @@ namespace LessonesProject.Controllers
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] User value)
+        public ActionResult Post([FromBody] User value)
         {
-            value.Id = users.Count + 1;
-            users.Add(value);
+            var u = _context.users.Find(x => x.Id == value.Id);
+            if (u != null)
+            {
+                return Conflict();
+            }
+            _context.users.Add(value);
+            return Ok();
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] User value)
+        public ActionResult Put(int id, [FromBody] User value)
         {
-            var index = users.FindIndex(u => u.Id == id);
+            var index = _context.users.FindIndex(u => u.Id == id);
             if (index >= 0)
             {
-                users[index].Name = value.Name;
-                users[index].Role = value.Role;
-                users[index].Email = value.Email;
+                _context.users[index].Name = value.Name;
+                _context.users[index].Role = value.Role;
+                _context.users[index].Email = value.Email;
+                return Ok();
             }
+            return NotFound();
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            var user = users.FirstOrDefault((u) => u.Id == id);
+            var user = _context.users.FirstOrDefault((u) => u.Id == id);
             if (user != null)
-                users.Remove(user);
+            {
+                _context.users.Remove(user);
+                return Ok();
+            }                
+            return BadRequest();
         }
     }
 }
