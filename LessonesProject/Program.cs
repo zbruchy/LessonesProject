@@ -1,5 +1,5 @@
 
-namespace LessonesProject
+namespace SchoolDigital
 {
     public class Program
     {

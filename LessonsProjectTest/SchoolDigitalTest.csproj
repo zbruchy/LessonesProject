@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LessonesProject\LessonesProject.csproj" />
+    <ProjectReference Include="..\LessonesProject\SchoolDigital.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

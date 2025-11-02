@@ -1,6 +1,6 @@
 ﻿using LessonesProject.Entities;
 
-namespace LessonesProject
+namespace SchoolDigital
 {
     public class DataContext : IDatacontext
     {

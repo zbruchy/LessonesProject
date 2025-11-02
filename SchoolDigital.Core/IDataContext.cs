@@ -1,4 +1,4 @@
-﻿using LessonesProject.Entities;
+﻿using SchoolDigital.Entities;
 
 namespace LessonesProject
 {
