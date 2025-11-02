@@ -9,43 +9,57 @@ namespace SchoolDigital.Controllers
     [ApiController]
     public class MaterialController : ControllerBase
     {
-        public static List<Material> materialsList = new List<Material>();
+        public IDatacontext _context { get; set; }
+        public MaterialController(IDatacontext context)
+        {
+            _context = context;
+        }
         // GET: api/<MaterialController>
         [HttpGet]
-        public IEnumerable<Material> Get(int lessonId)
+        public ActionResult Get(int lessonId)
         {
-            return materialsList.Where(m => m.LessonId == lessonId);
+            var m = _context.materials.FirstOrDefault(m => m.LessonId == lessonId);
+            if (m != null)
+                return Ok(m);
+            return NotFound();
         }
 
         // POST api/<MaterialController>
         [HttpPost]
-        public void Post(int lessonId, [FromBody] Material value)
+        public ActionResult Post(int lessonId, [FromBody] Material value)
         {
-            value.Id = materialsList.Count + 1;
-            value.LessonId = lessonId;
-            materialsList.Add(value);
+            var m = _context.materials.Find(x => x.Id == value.Id);
+            if (m != null)
+                return Conflict(m);
+            _context.materials.Add(value);
+            return Ok();
         }
 
         // PUT api/<MaterialController>/5
         [HttpPut("{id}")]
-        public void Put(int lessonId, int id, [FromBody] Material value)
+        public ActionResult Put(int lessonId, int id, [FromBody] Material value)
         {
-            var index = materialsList.FindIndex(m => m.Id == id && m.LessonId == lessonId);
+            var index = _context.materials.FindIndex(m => m.Id == id && m.LessonId == lessonId);
             if (index >= 0)
             {
-                materialsList[index].Title = value.Title;
-                materialsList[index].Type = value.Type;
-                materialsList[index].Url = value.Url;
+                _context.materials[index].Title = value.Title;
+                _context.materials[index].Type = value.Type;
+                _context.materials[index].Url = value.Url;
+                return Ok();
             }
+            return NotFound();
         }
 
         // DELETE api/<MaterialController>/5
         [HttpDelete("{id}")]
-        public void Delete(int lessonId, int id)
+        public ActionResult Delete(int lessonId, int id)
         {
-            var material = materialsList.FirstOrDefault(m => m.Id == id && m.LessonId == lessonId);
+            var material = _context.materials.FirstOrDefault(m => m.Id == id && m.LessonId == lessonId);
             if (material != null)
-                materialsList.Remove(material);
+            {
+                _context.materials.Remove(material);
+            }
+            return NotFound();   
         }
     }
 }
