@@ -1,5 +1,6 @@
-﻿using LessonesProject.Entities;
+﻿using SchoolDigital.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
+using SchoolDigital.Core.Service;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,23 +10,23 @@ namespace SchoolDigital.Controllers
     [ApiController]
     public class LessonController : ControllerBase
     {
-        public IDatacontext _context { get; set; }
-        public LessonController(IDatacontext context)
+        private readonly ILessonService _lessonService;
+        public LessonController(ILessonService lessonService)
         {
-            _context = context;
+            _lessonService = lessonService;
         }
         // GET: api/<LessonController>
         [HttpGet]
         public IEnumerable<Lesson> Get()
         {
-            return _context.lessons;
+            return _lessonService.GetAll();
         }
 
         // GET api/<LessonController>/5
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            var lesson = _context.lessons.FirstOrDefault(l => l.Id == id)!;
+            var lesson = _lessonService.GetById(id);
             if (lesson != null)
                 return Ok(lesson);
             return NotFound();
@@ -35,12 +36,12 @@ namespace SchoolDigital.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] Lesson value)
         {
-            var l = _context.lessons.Find(x => x.Id == value.Id);
+            /*var l = _context.lessons.Find(x => x.Id == value.Id);
             if (l != null)
             {
                 return Conflict();
             }
-            _context.lessons.Add(value);
+            _context.lessons.Add(value);*/
             return Ok();
         }
 
@@ -48,7 +49,7 @@ namespace SchoolDigital.Controllers
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Lesson value)
         {
-            var index = _context.lessons.FindIndex(l => l.Id == id);
+            /*var index = _context.lessons.FindIndex(l => l.Id == id);
             if (index >= 0)
             {
                 _context.lessons[index].Title = value.Title;
@@ -57,7 +58,7 @@ namespace SchoolDigital.Controllers
                 _context.lessons[index].Duration = value.Duration;
                 _context.lessons[index].Description = value.Description;
                 return Ok();
-            }
+            }*/
             return NotFound();
         }
 
@@ -65,12 +66,12 @@ namespace SchoolDigital.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var lesson = _context.lessons.FirstOrDefault(lesson => lesson.Id == id);
+            /*var lesson = _context.lessons.FirstOrDefault(lesson => lesson.Id == id);
             if (lesson != null)
             {
                 _context.lessons.Remove(lesson);
                 return Ok();
-            }
+            }*/
             return NotFound();
         }
     }

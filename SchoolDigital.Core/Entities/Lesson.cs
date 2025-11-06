@@ -1,4 +1,4 @@
-﻿namespace SchoolDigital.Entities
+﻿namespace SchoolDigital.Core.Entities
 {
     public class Lesson
     {

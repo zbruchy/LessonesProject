@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace SchoolDigital.Data.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class AttendanceRepository : IAttendanceRepository
     {
         private readonly DataContext _context;
-        public UserRepository(DataContext context)
+        public AttendanceRepository(DataContext context)
         {
             _context = context;
         }
-        public List<User> GetAllUsers()
+        public List<Attendance> GetAllAttendances()
         {
-            return _context.users;
+            return _context.attendances;
         }
 
-        public User GetById(int id)
+        public Attendance GetById(int id)
         {
-            var t = _context.users.Find(x => x.Id == id);
+            var t = _context.attendances.Find(x => x.Id == id);
             return t;
         }
     }

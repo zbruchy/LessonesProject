@@ -1,5 +1,5 @@
-﻿using LessonesProject.Controllers;
-using LessonesProject.Entities;
+﻿using SchoolDigital.Controllers;
+using SchoolDigital.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

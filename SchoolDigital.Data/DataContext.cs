@@ -1,8 +1,9 @@
-﻿using LessonesProject.Entities;
+﻿using SchoolDigital.Core;
+using SchoolDigital.Core.Entities;
 
 namespace SchoolDigital
 {
-    public class DataContext : IDatacontext
+    public class DataContext : IDataContext
     {
         public List<Lesson> lessons { get; set; }
         public List<Attendance> attendances { get; set; }

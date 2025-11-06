@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolDigital.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace SchoolDigital.Core.Service
 {
-    interface IAttendanceService
+    public interface IAttendanceService
     {
+        public List<Attendance> GetAll();
+        public Attendance GetById(int id);
     }
 }
